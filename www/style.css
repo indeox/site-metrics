@@ -20,7 +20,7 @@ a:hover {
 }
 
 .graph {
-	display: none;
+	//display: none;
 	max-width: 1024px;
 	height: 250px;
 }

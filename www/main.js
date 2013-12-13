@@ -7,8 +7,8 @@ metricsApp.controller('MainController', function($scope, $http) {
     // Load last 10 reports
     $http.get('reports/_reports.json')
          .success(function(data) {
-            var last10Reports = _.last(data, 10);
-            _.each(last10Reports, function(report) {
+            var latestReports = _.last(data, 10);
+            _.each(latestReports, function(report) {
                 var reportTimestamp = report[0],
                     reportFilename  = report[1];
 
@@ -17,7 +17,7 @@ metricsApp.controller('MainController', function($scope, $http) {
                         reportsLoaded += 1;
                         metricsData.push(reportData);
 
-                        if (reportsLoaded == 10) {
+                        if (reportsLoaded == latestReports.length) {
                             $scope.metricsData = metricsData;
                         }
                      });
@@ -48,6 +48,7 @@ metricsApp.directive('graph', [
                 var ctx = element[0].getContext("2d");
 
                 scope.$watch('data', function(metrics) {
+                    console.log(metrics);
                     var chartData = {
                         labels: _.map(metrics, function(val) {
                                     return moment(val.generatedEpoch).format('h:mma');
@@ -61,9 +62,9 @@ metricsApp.directive('graph', [
                                 data : [65,59,90,81,56,55,40,123,45,70]
                             },
                             {
-                                fillColor : "rgba(151,187,205,0.5)",
-                                strokeColor : "rgba(151,187,205,1)",
-                                pointColor : "rgba(151,187,205,1)",
+                                fillColor : "rgba(151,0,0,0.5)",
+                                strokeColor : "rgba(151,0,0,1)",
+                                pointColor : "rgba(151,0,0,1)",
                                 pointStrokeColor : "#fff",
                                 data : [28,48,40,19,96,27,40,123,45,70]
                             }
