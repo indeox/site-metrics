@@ -18,7 +18,7 @@ metricsApp.controller('MainController', function($scope, $http) {
                         metricsData.push(reportData);
 
                         if (reportsLoaded == latestReports.length) {
-                            $scope.metricsData = metricsData;
+                            $scope.metricsData = _.sortBy(metricsData, 'generatedEpoch');
                         }
                      });
             });
