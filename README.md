@@ -3,8 +3,6 @@ site-metrics
 
 ### Quick start
 
-```npm install```
+In the project directory, do ```npm install``` and then ```grunt``` 
 
-and then
-
-```grunt```
+Hopefully that'll do something expected
