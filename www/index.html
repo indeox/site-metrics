@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Reports</title>
+
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+		<link rel="stylesheet" href="style.css" />
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
+		<script src="main.js"></script>
+	</head>
+
+	<body ng-app="metricsApp">
+		<div class="container" ng-controller="MainController">
+			{{ reportDate | date: 'EEEE, MMMM d,y, h:mm a' }}
+
+			<canvas class="graph" width="1024" height="250" graph="metricsData"></canvas>
+
+			<ul class="sites">
+				<li class="site" ng-repeat="(url, data) in latestMetricsData">
+					<div class="viewport-meta">
+						<h2 class="site__title">{{ url | domain }}</h2>
+						<a class="site__url" href="{{url}}" target="_new">{{ url }}</a>
+					</div>
+					<ul class="viewports">
+						<li class="viewport"
+							ng-class="{'has-error': viewportMetrics.pageError}"
+							ng-repeat="viewportMetrics in data | orderObjectBy:'viewportMetrics.viewportWidth'"
+							ng-init="metrics = viewportMetrics.metrics.metrics">
+							<h3>{{ viewportMetrics.viewportName }}</h3>
+							<p title="time to first byte"><i class="fa fa-clock-o"></i> {{ metrics.timeToFirstByte }}ms</p>
+							<p title="css"><i class="fa fa-css3"></i> {{ metrics.cssSize | bytes }} ({{ metrics.cssCount }})</p>
+							<p title="js"><i class="fa fa-file"></i> {{ metrics.jsSize | bytes }} ({{ metrics.jsCount }})</p>
+							<p title="images"><i class="fa fa-picture-o"></i> {{ metrics.imageSize | bytes }} ({{ metrics.imageCount }})</p>
+							<p title="web fonts"><i class="fa fa-font"></i> {{ metrics.webfontSize | bytes }}</p>
+
+							<p>{{ metrics.bodySize | bytes }}</p>
+							<a href="renders/{{ viewportMetrics.screenshot }}" target="render">Render</a>
+							<!--pre>{{ metrics | json }}</pre-->
+						</li>
+					</ul>
+
+				</li>
+			</ul>
+
+		</div>
+	</body>
+</html>
