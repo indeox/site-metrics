@@ -1,5 +1,5 @@
 var metricsApp = angular.module('metricsApp', []);
-metricsApp.controller('MainController', function($scope, $http) {
+metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
 
     var metricsData = [],
         reportsLoaded = 0;
@@ -19,6 +19,8 @@ metricsApp.controller('MainController', function($scope, $http) {
 
                         if (reportsLoaded == latestReports.length) {
                             $scope.metricsData = _.sortBy(metricsData, 'generatedEpoch');
+                            $scope.latestMetricsData = reportData.reports;
+                            //$scope.reportDate = 'xxx';
                         }
                      });
             });
@@ -26,12 +28,23 @@ metricsApp.controller('MainController', function($scope, $http) {
 
 
     // Get latest report
-    $http.get('reports/_latest.json')
+    /*$http.get('reports/_latest.json')
          .success(function(data) {
             $scope.reportDate  = data.generatedEpoch;
             $scope.latestMetricsData = data.reports;
             console.log(data.reports);
-         });
+         });*/
+    $scope.getTotal = function(entry) {
+        var total = _.reduce(entry, function(sum, values) {
+            return sum + values.size;
+        }, 0);
+        return bytesFilter(total);
+        //console.log(entry);
+    };
+
+    $scope.consoleOut = function() {
+        console.log(this.viewportMetrics.metrics.summary);
+    };
 });
 
 
@@ -125,3 +138,45 @@ metricsApp.filter('orderObjectBy', function(){
     return array;
    };
 });
+
+
+
+metricsApp.directive('jqSparkline', [function () {
+        'use strict';
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ngModel) {
+
+                 var opts={};
+                opts.type = attrs.type || 'line';
+
+                scope.$watch(attrs.ngModel, function () {
+                    render();
+                });
+
+                scope.$watch(attrs.opts, function(){
+                  render();
+                }
+                  );
+                var render = function () {
+                    var model;
+                    if(attrs.opts) angular.extend(opts, angular.fromJson(attrs.opts));
+                    //console.log(opts);
+                    // Trim trailing comma if we are a string
+                    //console.log(ngModel.$viewValue);
+                    angular.isString(ngModel.$viewValue) ? model = ngModel.$viewValue.replace(/(^,)|(,$)/g, "") : model = ngModel.$viewValue;
+                    var data;
+
+                    var frameworksSize = _.reduce(ngModel.$viewValue.summary.frameworks, function(sum, values) {
+                        return sum + values.size;
+                    }, 0);
+                    model = [0, 0, ngModel.$viewValue.size, frameworksSize]; // target, performance, range, range2, range3
+
+                    // Make sure we have an array of numbers
+                    angular.isArray(model) ? data = model : data = model.split(',');
+                    $(elem).sparkline(data, opts);
+                };
+            }
+        }
+    }]);

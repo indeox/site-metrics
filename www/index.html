@@ -10,6 +10,8 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
 		<script src="main.js"></script>
 	</head>
 
@@ -27,22 +29,26 @@
 					</div>
 					<ul class="viewports">
 						<li class="viewport"
+							ng-click="consoleOut()"
 							ng-class="{'has-error': viewportMetrics.pageError}"
 							ng-repeat="viewportMetrics in data | orderObjectBy:'viewportMetrics.viewportWidth'"
-							ng-init="metrics = viewportMetrics.metrics.metrics">
-							<h3>{{ viewportMetrics.viewportName }}</h3>
-							<p title="time to first byte"><i class="fa fa-clock-o"></i> {{ metrics.timeToFirstByte }}ms</p>
-							<p title="css"><i class="fa fa-css3"></i> {{ metrics.cssSize | bytes }} ({{ metrics.cssCount }})</p>
-							<p title="js"><i class="fa fa-file"></i> {{ metrics.jsSize | bytes }} ({{ metrics.jsCount }})</p>
-							<p title="images"><i class="fa fa-picture-o"></i> {{ metrics.imageSize | bytes }} ({{ metrics.imageCount }})</p>
-							<p title="web fonts"><i class="fa fa-font"></i> {{ metrics.webfontSize | bytes }}</p>
+							ng-init="metrics = viewportMetrics.metrics.summary.all">
 
-							<p>{{ metrics.bodySize | bytes }}</p>
+							<div jq-sparkline ng-model="viewportMetrics.metrics" opts="{{ {type:'bullet', width:'150px', height:'35px'} }}"></div>
+
+							<h3>{{ viewportMetrics.metrics.viewport }}</h3>
+							<p title="time to first byte"><i class="fa fa-clock-o"></i> {{ metrics.timeToFirstByte }}ms</p>
+							<p title="css"><i class="fa fa-css3"></i> {{ metrics.css.size | bytes }} ({{ metrics.css.entries.length }})</p>
+							<p title="js"><i class="fa fa-file"></i> {{ metrics.js.size | bytes }} ({{ metrics.js.entries.length }})</p>
+							<p title="images"><i class="fa fa-picture-o"></i> {{ metrics.image.size | bytes }} ({{ metrics.image.entries.length }})</p>
+							<p title="web fonts"><i class="fa fa-font"></i> {{ metrics.webfont.size | bytes }}</p>
+
+							<p>{{ viewportMetrics.metrics.size | bytes }}</p>
+							<p><span ng-bind="getTotal(viewportMetrics.metrics.summary.frameworks)"></span> (Frameworks)</p>
 							<a href="renders/{{ viewportMetrics.screenshot }}" target="render">Render</a>
 							<!--pre>{{ metrics | json }}</pre-->
 						</li>
 					</ul>
-
 				</li>
 			</ul>
 

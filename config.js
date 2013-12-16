@@ -15,7 +15,7 @@ module.exports = {
 	],
 
 	screenSizes: [
-		"320x240",
+		"320x480",
 		"768x560",
 		"1008x768"
 	],
@@ -29,10 +29,10 @@ module.exports = {
 	],
 
 	sandbox: [
-		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=false",
+		/*"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=false",
 		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=slow&lazyload=false",
 		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=slow&lazyload=true",
 		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=true"
-		//"http://www.bbc.co.uk/news"
+		"http://www.bbc.co.uk/news"*/
 	]
 };
