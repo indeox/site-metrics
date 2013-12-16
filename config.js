@@ -31,9 +31,8 @@ module.exports = {
 	sandbox: [
 		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=false",
 		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=slow&lazyload=false",
-		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=true",
-		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=slow&lazyload=true"
-		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=true&noupscale=1"
+		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=slow&lazyload=true",
+		"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=true"
 		//"http://www.bbc.co.uk/news"
 	]
 };
