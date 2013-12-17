@@ -19,10 +19,9 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
 
                         if (reportsLoaded == latestReports.length) {
                             $scope.metricsData = _.sortBy(metricsData, 'generatedEpoch');
-                            $scope.latestMetricsData = reportData.reports;
-                            //console.log(reportData);
-                            //$scope.reportDate = 'xxx';
-                            $scope.reportDate = reportData.generated;
+                            //console.log($scope.metricsData);
+                            //$scope.latestMetricsData = $scope.metricsData[0].reports;
+                            //$scope.reportDate = $scope.metricsData[0].generated;
                         }
                      });
             });
@@ -30,12 +29,12 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
 
 
     // Get latest report
-    /*$http.get('reports/_latest.json')
+    $http.get('reports/_latest.json')
          .success(function(data) {
             $scope.reportDate  = data.generatedEpoch;
             $scope.latestMetricsData = data.reports;
             console.log(data.reports);
-         });*/
+         });
     $scope.getTotal = function(entry) {
         var total = _.reduce(entry, function(sum, values) {
             return sum + values.size;
@@ -47,7 +46,7 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
     $scope.showRequests = function() {
         console.log(this.metrics.viewport);
         var counter = 1;
-        _.each(this.metrics.frameworksSummary, function(val) {
+        _.each(this.metrics.summary, function(val) {
             if (_.isObject(val)) {
                 _.each(val.entries, function(entry) {
                     console.log(counter, entry[0], bytesFilter(entry[1]));
