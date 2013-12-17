@@ -20,9 +20,47 @@ a:hover {
 }
 
 .graph {
-	//display: none;
+	display: none;
 	max-width: 1024px;
 	height: 250px;
+}
+
+.requests,
+.frameworks {
+	cursor: pointer;
+}
+
+.frameworks {
+	font-size: 10px;
+	color: #666;
+}
+
+.frameworks:after {
+	content: 'FRAMEWORKS';
+	font-size: 9px;
+	font-weight: 200;
+	padding-left: 4px;
+	border-left: 1px solid #aaa;
+}
+
+.requests__size {
+	display: inline-block;
+	min-width: 45px;
+}
+
+.requests__size--nospacing {
+	min-width: 0;
+}
+
+.requests__count {
+	color: #cc0000;
+}
+.requests__count:after {
+	content: "req";
+}
+
+.requests--percent {
+	font-size: 9px;
 }
 
 
@@ -32,7 +70,7 @@ a:hover {
 
 .site {
 	overflow: hidden;
-	margin-bottom: 16px;
+	margin-bottom: 30px;
 }
 
 .site:hover {
@@ -62,11 +100,18 @@ a:hover {
 	font-size: 12px;
 }
 
+.viewport__title {
+	font-size: 20px;
+	line-height: 1;
+	color: #aaa;
+}
+
 .viewport.has-error {
 	opacity: 0.2;
 }
 
 .viewport i {
+	display: inline-block;
 	width: 15px;
 }
 
@@ -75,4 +120,9 @@ a:hover {
 	width: 25%;
 	word-break: break-all;
 	padding-right: 8px;
+}
+
+.viewport__summary {
+	font-size: 15px;
+	margin-bottom: 10px;
 }

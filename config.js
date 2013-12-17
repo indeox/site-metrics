@@ -2,6 +2,7 @@ module.exports = {
 	bbcServices: [
 		"news",
 		"hindi",
+		"russian",
 		/*"arabic",
 		"russian",
 		"persian",
@@ -25,7 +26,9 @@ module.exports = {
 	},
 
 	externalSites: [
-		"http://www.theguardian.com/uk?view=mobile"
+		"http://www.theguardian.com/uk?view=mobile",
+		"http://www.live.bbc.co.uk/news/entertainment-arts-25367046",
+		"http://www.live.bbc.co.uk/hindi/india/2013/12/131216_ganguly_law_intern_indira_jaising_da"
 	],
 
 	sandbox: [

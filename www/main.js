@@ -20,6 +20,7 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
                         if (reportsLoaded == latestReports.length) {
                             $scope.metricsData = _.sortBy(metricsData, 'generatedEpoch');
                             $scope.latestMetricsData = reportData.reports;
+                            //console.log($scope.latestMetricsData);
                             //$scope.reportDate = 'xxx';
                         }
                      });
@@ -42,8 +43,31 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
         //console.log(entry);
     };
 
-    $scope.consoleOut = function() {
-        console.log(this.viewportMetrics.metrics.summary);
+    $scope.showRequests = function() {
+        console.log(this.metrics.viewport);
+        var counter = 1;
+        _.each(this.metrics.frameworksSummary, function(val) {
+            if (_.isObject(val)) {
+                _.each(val.entries, function(entry) {
+                    console.log(counter, entry[0], bytesFilter(entry[1]));
+                    counter += 1;
+                });
+            }
+        });
+    };
+
+    $scope.showFrameworksRequests = function() {
+        console.log(this.metrics.viewport);
+        var counter = 1;
+        _.each(this.metrics.frameworksSummary, function(val) {
+            if (_.isObject(val)) {
+                _.each(val.entries, function(entry) {
+                    console.log(counter, entry[0], bytesFilter(entry[1]));
+                    counter += 1;
+                });
+            }
+        });
+        // /console.log(this.metrics.frameworksSummary);
     };
 });
 
@@ -61,7 +85,7 @@ metricsApp.directive('graph', [
                 var ctx = element[0].getContext("2d");
 
                 scope.$watch('data', function(metrics) {
-                    console.log(metrics);
+                    //console.log(metrics);
                     var chartData = {
                         labels: _.map(metrics, function(val) {
                                     return moment(val.generatedEpoch).format('h:mma');
@@ -103,7 +127,7 @@ metricsApp.filter('bytes', function() {
         if (typeof precision === 'undefined') precision = 1;
         var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
             number = Math.floor(Math.log(bytes) / Math.log(1024));
-        return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+        return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  '' + units[number];
     };
 });
 
@@ -140,6 +164,18 @@ metricsApp.filter('orderObjectBy', function(){
 });
 
 
+// From https://github.com/vpegado/angular-percentage-filter/blob/master/percentage.js
+metricsApp.filter('percentage', function () {
+        return function (input) {
+            var rounded = Math.round(input*10000)/100;
+            if (rounded == NaN) {
+                return '';
+            }
+            var percentage = '' + rounded + '%';
+            return percentage;
+        };
+    });
+
 
 metricsApp.directive('jqSparkline', [function () {
         'use strict';
@@ -165,7 +201,7 @@ metricsApp.directive('jqSparkline', [function () {
                     //console.log(opts);
                     // Trim trailing comma if we are a string
                     //console.log(ngModel.$viewValue);
-                    angular.isString(ngModel.$viewValue) ? model = ngModel.$viewValue.replace(/(^,)|(,$)/g, "") : model = ngModel.$viewValue;
+                    /*angular.isString(ngModel.$viewValue) ? model = ngModel.$viewValue.replace(/(^,)|(,$)/g, "") : model = ngModel.$viewValue;
                     var data;
 
                     var frameworksSize = _.reduce(ngModel.$viewValue.summary.frameworks, function(sum, values) {
@@ -175,7 +211,7 @@ metricsApp.directive('jqSparkline', [function () {
 
                     // Make sure we have an array of numbers
                     angular.isArray(model) ? data = model : data = model.split(',');
-                    $(elem).sparkline(data, opts);
+                    $(elem).sparkline(data, opts);*/
                 };
             }
         }
