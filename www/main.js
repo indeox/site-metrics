@@ -20,8 +20,9 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
                         if (reportsLoaded == latestReports.length) {
                             $scope.metricsData = _.sortBy(metricsData, 'generatedEpoch');
                             $scope.latestMetricsData = reportData.reports;
-                            //console.log($scope.latestMetricsData);
+                            //console.log(reportData);
                             //$scope.reportDate = 'xxx';
+                            $scope.reportDate = reportData.generated;
                         }
                      });
             });
