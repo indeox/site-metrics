@@ -22,7 +22,7 @@
 			<canvas class="graph" width="1024" height="250" graph="metricsData"></canvas>
 
 			<ul class="sites">
-				<li class="site" ng-repeat="(url, data) in latestMetricsData">
+				<li class="site" ng-repeat="(url, data) in latestMetricsData" ng-init="url = data.320x480.url">
 					<div class="viewport-meta">
 						<h2 class="site__title">{{ url | domain }}</h2>
 						<a class="site__url" href="{{url}}" target="_new">{{ url }}</a>
@@ -31,7 +31,8 @@
 						<li class="viewport"
 							ng-class="{'has-error': viewportMetrics.pageError}"
 							ng-repeat="metrics in data | orderObjectBy:'viewportMetrics.viewportWidth'"
-							ng-init="summary = metrics.summary">
+							ng-show="metrics.summary"
+							ng-init="summary = metrics.summary; newsSummary = metrics.newsSummary">
 
 							<div jq-sparkline ng-model="viewportMetrics.metrics" opts="{{ {type:'bullet', width:'150px', height:'35px'} }}"></div>
 
@@ -50,6 +51,11 @@
 
 									<span class="requests--percent">{{ metrics.frameworksSummary._size / metrics.summary._size | percentage }}</span>
 								</div>
+
+								<div class="core-summary" ng-show="metrics.size">
+								    <span class="requests__size">{{ metrics.size - metrics.frameworksSummary._size | bytes }}</span>
+								    <span class="requests__count">{{ metrics.count - metrics.frameworksSummary._count }}</span>
+								</div>
 							</h4>
 
 
@@ -58,37 +64,37 @@
 								{{ summary.timeToFirstByte }}ms
 							</p>
 
-							<p title="html" ng-show="summary.html.size">
+							<p title="html" ng-show="summary.html.size" ng-click="showRequestsByType('html')">
 								<i class="fa fa-file"></i>
 								<span class="requests__size">{{ summary.html.size | bytes }}</span>
 								<span class="requests__count">{{ summary.html.entries.length }}</span>
 							</p>
 
-							<p title="css" ng-show="summary.css.size">
+							<p title="css" ng-show="summary.css.size" ng-click="showRequestsByType('css')">
 								<i class="fa fa-css3"></i>
 								<span class="requests__size">{{ summary.css.size | bytes }}</span>
 								<span class="requests__count">{{ summary.css.entries.length }}</span>
 							</p>
 
-							<p title="js" ng-show="summary.js.size">
+							<p title="js" ng-show="summary.js.size" ng-click="showRequestsByType('js')">
 								<i>JS</i>
 								<span class="requests__size">{{ summary.js.size | bytes }}</span>
 								<span class="requests__count">{{ summary.js.entries.length }}</span>
 							</p>
 
-							<p title="images" ng-show="summary.image.size">
+							<p title="images" ng-show="summary.image.size" ng-click="showRequestsByType('image')">
 								<i class="fa fa-picture-o"></i>
 								<span class="requests__size">{{ summary.image.size | bytes }}</span>
 								<span class="requests__count">{{ summary.image.entries.length }}</span>
 							</p>
 
-							<p title="web fonts" ng-show="summary.webfont.size">
+							<p title="web fonts" ng-show="summary.webfont.size" ng-click="showRequestsByType('webfont')">
 								<i class="fa fa-font"></i>
 								<span class="requests__size">{{ summary.webfont.size | bytes }}</span>
 								<span class="requests__count">{{ summary.webfont.entries.length }}</span>
 							</p>
 
-							<a href="renders/{{ viewportMetrics.screenshot }}" target="render">Render</a>
+							<a href="renders/{{ metrics.screenshot }}" target="render">Render</a>
 							<!--pre>{{ metrics | json }}</pre-->
 						</li>
 					</ul>

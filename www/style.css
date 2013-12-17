@@ -28,16 +28,21 @@ a:hover {
 .requests,
 .frameworks {
 	cursor: pointer;
-}
-
-.frameworks {
 	font-size: 10px;
 	color: #666;
 }
 
+.requests:after {
+	content: 'TOTAL';
+	font-size: 10px;
+	font-weight: 200;
+	padding-left: 4px;
+	border-left: 1px solid #aaa;
+}
+
 .frameworks:after {
 	content: 'FRAMEWORKS';
-	font-size: 9px;
+	font-size: 10px;
 	font-weight: 200;
 	padding-left: 4px;
 	border-left: 1px solid #aaa;

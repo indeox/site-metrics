@@ -32,8 +32,16 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
     $http.get('reports/_latest.json')
          .success(function(data) {
             $scope.reportDate  = data.generatedEpoch;
-            $scope.latestMetricsData = data.reports;
-            console.log(data.reports);
+            //$scope.latestMetricsData = data.reports;
+
+            var sorted = _.sortBy(data.reports, function(val, key) {
+                var coreSize = val['320x480'].summary._size - val['320x480'].frameworksSummary._size;
+                return coreSize;
+            }).reverse();
+
+            $scope.latestMetricsData = sorted;
+            //console.log(sorted);
+            //console.log(data.reports);
          });
     $scope.getTotal = function(entry) {
         var total = _.reduce(entry, function(sum, values) {
@@ -56,6 +64,15 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
         });
     };
 
+    $scope.showRequestsByType = function(type) {
+        console.log(this.metrics.viewport);
+        var counter = 1;
+        _.each(this.metrics.summary[type].entries, function(val) {
+            console.log(counter, val[0], bytesFilter(val[1]));
+            counter += 1;
+        });
+    };
+
     $scope.showFrameworksRequests = function() {
         console.log(this.metrics.viewport);
         var counter = 1;
@@ -67,7 +84,6 @@ metricsApp.controller('MainController', function($scope, $http, bytesFilter) {
                 });
             }
         });
-        // /console.log(this.metrics.frameworksSummary);
     };
 });
 
