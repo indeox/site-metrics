@@ -2,9 +2,9 @@ module.exports = {
 	bbcServices: [
 		"news",
 		"hindi",
-		"arabic",
-		"russian",
+		"arabic"
 		/*"persian",
+		"russian",
 		"portuguese",
 		"mundo",
 		"vietnamese",
@@ -21,19 +21,16 @@ module.exports = {
 	],
 
 	assetGroups: {
-		frameworks: "/frameworks/",
-		news: "/news/"
+		frameworks: "/frameworks/"
 	},
 
 	externalSites: [
-		"http://www.bbc.co.uk/news",
-		"http://www.bbc.co.uk/hindi",
-		"http://www.live.bbc.co.uk/hindi/india/2013/12/131217_lokpal_bill_passed_aa",
-		"http://www.live.bbc.co.uk/news/business-25402007",
-		"http://www.theguardian.com/uk?view=mobile",
-		"http://www.theguardian.com/world/2013/dec/17/heathrow-gatwick-airports-expansion?view=mobile"
+		"http://mobile.nytimes.com/",
+		"http://www.theguardian.com/uk?view=mobile"
 	],
 
+	// Sandbox requests run sequentially (ie: slower!),
+	// to attempt to avoid hitting the ContentAPI limits
 	sandbox: [
 		//"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=high&lazyload=false",
 		//"http://pal.sandbox.dev.bbc.co.uk/hindi?speed=slow&lazyload=true",
