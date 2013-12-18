@@ -2,9 +2,9 @@ module.exports = {
 	bbcServices: [
 		"news",
 		"hindi",
-		/*"arabic",
+		"arabic",
 		"russian",
-		"persian",
+		/*"persian",
 		"portuguese",
 		"mundo",
 		"vietnamese",
